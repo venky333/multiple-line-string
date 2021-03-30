@@ -9,7 +9,7 @@ processor that takes multiple line string and outputs customized report
 (or)
 4) If you are using macbook, then navigate to this workspace via terminal and run `make run`
 
-#output
+# output
 * Output will be printed in console.
 Example: If you clone and run the application as it is without changing input then the output will be the below one.
 
