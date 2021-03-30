@@ -14,12 +14,13 @@ import java.util.Map;
 @Slf4j
 public class MultipleLineStringServiceHelper {
 
-    /**
-     * Prepares BuildDetails list with array of lines as input
-     *
-     * @param lines
-     * @return
-     */
+    private static void logInfo(final String message) {
+        log.info("");
+        log.info("--------------------------------------");
+        log.info("{}", message);
+        log.info("--------------------------------------");
+    }
+
     public List<BuildDetails> prepareBuildDetailsList(String[] lines) {
         List<BuildDetails> buildDetailsList = new ArrayList<>();
         for (String line : lines) {
@@ -28,69 +29,35 @@ public class MultipleLineStringServiceHelper {
         return buildDetailsList;
     }
 
-    /**
-     * Prints number of unique customer id's for each contract id
-     *
-     * @param uniqueCustomerIdByContractMap
-     */
     public void printUniqueCustomerIdByContract(Map<Integer, HashSet<Long>> uniqueCustomerIdByContractMap) {
-        log.info("\n\n##################### The number of unique customerId for each contractId ##########################\n");
-        uniqueCustomerIdByContractMap.forEach((contractId, customerIdSet) ->
-                log.info("Number of unique customer ids for contract id {} are {}",
-                        contractId, customerIdSet.stream().count()));
+        logInfo("Contract id\t# unique customers");
+        uniqueCustomerIdByContractMap.forEach((contractId, customerIds) -> log.info("{}\t\t{}", contractId, customerIds.size()));
     }
 
-    /**
-     * Prints number of unique customer id's for each geo zone
-     *
-     * @param uniqueCustomerIdByGeoZoneMap
-     */
     public void printUniqueCustomerIdByGeoZone(Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap) {
-        log.info("\n\n##################### The number of unique customerId for each geozone ##########################\n");
-        uniqueCustomerIdByGeoZoneMap.forEach((geoZone, customerIdSet) ->
-                log.info("Number of unique customer ids for geo zone {} are {}",
-                        geoZone, customerIdSet.stream().count()));
+        logInfo("Geo Zone\t# unique customers");
+        uniqueCustomerIdByGeoZoneMap.forEach((geoZone, customerIdSet) -> log.info("{}\t{}", geoZone, customerIdSet.size()));
     }
 
-    /**
-     * Prints average build duration for each geo zone
-     *
-     * @param buildDurationByGeoZoneMap
-     */
     public void printBuildDurationByGeoZone(Map<String, List<Integer>> buildDurationByGeoZoneMap) {
-        log.info("\n\n##################### The average buildduration for each geozone ##########################\n");
-        buildDurationByGeoZoneMap.forEach((geoZone, bdList) ->
-                log.info("Average build duration of geo zone {} is {}",
-                        geoZone, bdList.stream().mapToDouble(a -> a).average().getAsDouble()));
+        logInfo("Geo Zone\tAverage build duration");
+        buildDurationByGeoZoneMap.forEach((geoZone, buildDurationList) ->
+                log.info("{}\t{}", geoZone, buildDurationList.stream().mapToDouble(duration -> duration).average().getAsDouble()));
     }
 
-    /**
-     * Prints list of unique customer id's for each geo zone
-     *
-     * @param uniqueCustomerIdByGeoZoneMap
-     */
     public void printUniqueCustomerListByGeoZone(Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap) {
-        log.info("\n\n##################### The list of unique customerId for each geozone ##########################\n");
-        uniqueCustomerIdByGeoZoneMap.forEach((geoZone, customerIdSet) -> {
-            log.info("List of unique customer id for geo zone {} are:", geoZone);
-            customerIdSet.forEach(customerId -> log.info(" * customer id: {}", customerId));
-        });
+        logInfo("Geo Zone\tUnique customer ids");
+        uniqueCustomerIdByGeoZoneMap.forEach((geoZone, customerIdSet) -> log.info("{}\t{}", geoZone, customerIdSet));
     }
 
-    /**
-     * Prepares build details from the array of attributes as input
-     *
-     * @param attributes
-     * @return BuildDetails
-     */
     private BuildDetails prepareBuildDetails(String[] attributes) {
-        BuildDetails buildDetails = new BuildDetails();
-        buildDetails.setCustomerId(Long.parseLong(attributes[0]));
-        buildDetails.setContractId(Integer.parseInt(attributes[1]));
-        buildDetails.setGeoZone(attributes[2]);
-        buildDetails.setTeamCode(attributes[3]);
-        buildDetails.setProjectCode(attributes[4]);
-        buildDetails.setBuildDuration(attributes[5]);
-        return buildDetails;
+        return BuildDetails.builder()
+                .customerId(Long.parseLong(attributes[0]))
+                .contractId(Integer.parseInt(attributes[1]))
+                .geoZone(attributes[2])
+                .teamCode(attributes[3])
+                .projectCode(attributes[4])
+                .buildDuration(attributes[5])
+                .build();
     }
 }

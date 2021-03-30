@@ -51,10 +51,8 @@ public class MultipleLineStringServiceHelperTest extends AbstractTest {
     }
 
     @Test
-    public void givenUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerIdByContract_thenLogsTwoMessages() {
+    public void givenUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerIdByContract_thenLogsFiveMessages() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The number of unique customerId for each contractId ##########################\n";
-        String expectedMsgTwo = "Number of unique customer ids for contract id 2345 are 1";
         Map<Integer, HashSet<Long>> uniqueCustomerIdByContractMap = new HashMap<>();
         HashSet<Long> hashSet = new HashSet<>();
         hashSet.add(2343225L);
@@ -63,26 +61,23 @@ public class MultipleLineStringServiceHelperTest extends AbstractTest {
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerIdByContract(uniqueCustomerIdByContractMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(2).containsExactly(expectedMsgOne, expectedMsgTwo);
+        assertThat(logCaptor.getInfoLogs()).hasSize(5);
     }
 
     @Test
-    public void givenEmptyUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerIdByContract_thenLogsOneMessage() {
+    public void givenEmptyUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerIdByContract_thenLogsFourMessage() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The number of unique customerId for each contractId ##########################\n";
         Map<Integer, HashSet<Long>> uniqueCustomerIdByContractMap = new HashMap<>();
         // execute
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerIdByContract(uniqueCustomerIdByContractMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(1).containsExactly(expectedMsgOne);
+        assertThat(logCaptor.getInfoLogs()).hasSize(4);
     }
 
     @Test
-    public void givenUniqueCustomerIdByGeoZoneMap_whenRequestedPrintUniqueCustomerIdByGeoZone_thenLogsTwoMessages() {
+    public void givenUniqueCustomerIdByGeoZoneMap_whenRequestedPrintUniqueCustomerIdByGeoZone_thenLogsFiveMessages() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The number of unique customerId for each geozone ##########################\n";
-        String expectedMsgTwo = "Number of unique customer ids for geo zone us_east are 1";
         Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap = new HashMap<>();
         HashSet<Long> hashSet = new HashSet<>();
         hashSet.add(2343225L);
@@ -91,26 +86,23 @@ public class MultipleLineStringServiceHelperTest extends AbstractTest {
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerIdByGeoZone(uniqueCustomerIdByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(2).containsExactly(expectedMsgOne, expectedMsgTwo);
+        assertThat(logCaptor.getInfoLogs()).hasSize(5);
     }
 
     @Test
-    public void givenEmptyUniqueCustomerIdByGeoZoneMap_whenRequestedPrintUniqueCustomerIdByGeoZone_thenLogsOneMessage() {
+    public void givenEmptyUniqueCustomerIdByGeoZoneMap_whenRequestedPrintUniqueCustomerIdByGeoZone_thenLogsFourMessage() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The number of unique customerId for each geozone ##########################\n";
         Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap = new HashMap<>();
         // execute
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerIdByGeoZone(uniqueCustomerIdByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(1).containsExactly(expectedMsgOne);
+        assertThat(logCaptor.getInfoLogs()).hasSize(4);
     }
 
     @Test
-    public void givenBuildDurationByGeoZoneMap_whenRequestedPrintBuildDurationByGeoZone_thenLogsTwoMessages() {
+    public void givenBuildDurationByGeoZoneMap_whenRequestedPrintBuildDurationByGeoZone_thenLogsFiveMessages() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The average buildduration for each geozone ##########################\n";
-        String expectedMsgTwo = "Average build duration of geo zone us_east is 3445.0";
         Map<String, List<Integer>> buildDurationByGeoZoneMap = new HashMap<>();
         List<Integer> list = new ArrayList<>();
         list.add(3445);
@@ -119,27 +111,23 @@ public class MultipleLineStringServiceHelperTest extends AbstractTest {
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printBuildDurationByGeoZone(buildDurationByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(2).containsExactly(expectedMsgOne, expectedMsgTwo);
+        assertThat(logCaptor.getInfoLogs()).hasSize(5);
     }
 
     @Test
-    public void givenEmptyBuildDurationByGeoZoneMap_whenRequestedPrintBuildDurationByGeoZone_thenLogsOneMessage() {
+    public void givenEmptyBuildDurationByGeoZoneMap_whenRequestedPrintBuildDurationByGeoZone_thenLogsFourMessage() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The average buildduration for each geozone ##########################\n";
         Map<String, List<Integer>> buildDurationByGeoZoneMap = new HashMap<>();
         // execute
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printBuildDurationByGeoZone(buildDurationByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(1).containsExactly(expectedMsgOne);
+        assertThat(logCaptor.getInfoLogs()).hasSize(4);
     }
 
     @Test
-    public void givenUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerListByGeoZone_thenLogsThreeMessages() {
+    public void givenUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerListByGeoZone_thenLogsFiveMessages() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The list of unique customerId for each geozone ##########################\n";
-        String expectedMsgTwo = "List of unique customer id for geo zone us_east are:";
-        String expectedMsgThree = " * customer id: 2343225";
         Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap = new HashMap<>();
         HashSet<Long> hashSet = new HashSet<>();
         hashSet.add(2343225L);
@@ -148,19 +136,18 @@ public class MultipleLineStringServiceHelperTest extends AbstractTest {
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerListByGeoZone(uniqueCustomerIdByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(3).containsExactly(expectedMsgOne, expectedMsgTwo, expectedMsgThree);
+        assertThat(logCaptor.getInfoLogs()).hasSize(5);
     }
 
     @Test
-    public void givenEmptyUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerListByGeoZone_thenLogsOneMessage() {
+    public void givenEmptyUniqueCustomerIdByContractMap_whenRequestedPrintUniqueCustomerListByGeoZone_thenLogsFourMessage() {
         // arrange
-        String expectedMsgOne = "\n\n##################### The list of unique customerId for each geozone ##########################\n";
         Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap = new HashMap<>();
         // execute
         LogCaptor logCaptor = LogCaptor.forClass(MultipleLineStringServiceHelper.class);
         multipleLineStringServiceHelper.printUniqueCustomerListByGeoZone(uniqueCustomerIdByGeoZoneMap);
         // assert
-        assertThat(logCaptor.getInfoLogs()).hasSize(1).containsExactly(expectedMsgOne);
+        assertThat(logCaptor.getInfoLogs()).hasSize(4);
     }
 
     @Test(expected = NullPointerException.class)

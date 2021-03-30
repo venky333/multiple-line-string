@@ -10,7 +10,7 @@ import java.util.*;
 @Service
 public class MultipleLineStringService {
 
-    final MultipleLineStringServiceHelper multipleLineStringServiceHelper;
+    private final MultipleLineStringServiceHelper multipleLineStringServiceHelper;
 
     public MultipleLineStringService(MultipleLineStringServiceHelper multipleLineStringServiceHelper) {
         this.multipleLineStringServiceHelper = multipleLineStringServiceHelper;
@@ -32,40 +32,31 @@ public class MultipleLineStringService {
      * @param multiLines
      */
     public void processMultiLineString(String multiLines) {
-        // initialisation
         Map<Integer, HashSet<Long>> uniqueCustomerIdByContractMap = new HashMap<>();
         Map<String, HashSet<Long>> uniqueCustomerIdByGeoZoneMap = new HashMap<>();
         Map<String, List<Integer>> buildDurationByGeoZoneMap = new HashMap<>();
 
-        // splits the input multiple lines into line with delimiter as space
         String[] lines = multiLines.split(Constants.SPACE_REGEX);
         List<BuildDetails> buildDetailsList = multipleLineStringServiceHelper.prepareBuildDetailsList(lines);
 
-        buildDetailsList.forEach(bd -> {
-            // preparing map with contract_id as key and HashSet of customer_id as value
-            uniqueCustomerIdByContractMap.computeIfAbsent(bd.getContractId(), k -> new HashSet<>());
-            uniqueCustomerIdByContractMap.get(bd.getContractId()).add(bd.getCustomerId());
+        buildDetailsList.forEach(buildDetails -> {
+            uniqueCustomerIdByContractMap.computeIfAbsent(buildDetails.getContractId(), k -> new HashSet<>());
+            uniqueCustomerIdByContractMap.get(buildDetails.getContractId()).add(buildDetails.getCustomerId());
 
-            // preparing map with geo_zone as key and HashSet of customer_id as value
-            uniqueCustomerIdByGeoZoneMap.computeIfAbsent(bd.getGeoZone(), k -> new HashSet<>());
-            uniqueCustomerIdByGeoZoneMap.get(bd.getGeoZone()).add(bd.getCustomerId());
+            uniqueCustomerIdByGeoZoneMap.computeIfAbsent(buildDetails.getGeoZone(), k -> new HashSet<>());
+            uniqueCustomerIdByGeoZoneMap.get(buildDetails.getGeoZone()).add(buildDetails.getCustomerId());
 
-            // preparing map with geo_zone as key and List of build_duration as value
-            buildDurationByGeoZoneMap.computeIfAbsent(bd.getGeoZone(), k -> new ArrayList<>());
-            buildDurationByGeoZoneMap.get(bd.getGeoZone()).add(Integer.parseInt(bd.getBuildDuration()
+            buildDurationByGeoZoneMap.computeIfAbsent(buildDetails.getGeoZone(), k -> new ArrayList<>());
+            buildDurationByGeoZoneMap.get(buildDetails.getGeoZone()).add(Integer.parseInt(buildDetails.getBuildDuration()
                     .replace(Constants.S_CHAR, Constants.EMPTY)));
         });
 
-        // calls helper method to print the number of unique customerId for each contract_id
         multipleLineStringServiceHelper.printUniqueCustomerIdByContract(uniqueCustomerIdByContractMap);
 
-        // calls helper method to print the number of unique customerId for each geo_zone
         multipleLineStringServiceHelper.printUniqueCustomerIdByGeoZone(uniqueCustomerIdByGeoZoneMap);
 
-        // calls helper method to print the average build_duration for each geo_zone
         multipleLineStringServiceHelper.printBuildDurationByGeoZone(buildDurationByGeoZoneMap);
 
-        // calls helper method to print the list of unique customer_id for each geo_zone
         multipleLineStringServiceHelper.printUniqueCustomerListByGeoZone(uniqueCustomerIdByGeoZoneMap);
     }
 }
