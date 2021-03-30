@@ -107,13 +107,13 @@ public class MultipleLineStringServiceTest extends AbstractTest {
 
     // data
     private BuildDetails getBuildDetails() {
-        BuildDetails buildDetails = new BuildDetails();
-        buildDetails.setCustomerId(2343225L);
-        buildDetails.setContractId(2345);
-        buildDetails.setGeoZone("us_east");
-        buildDetails.setTeamCode("RedTeam");
-        buildDetails.setProjectCode("ProjectApple");
-        buildDetails.setBuildDuration("3445s");
-        return buildDetails;
+        return BuildDetails.builder()
+                .customerId(2343225L)
+                .contractId(2345)
+                .geoZone("us_east")
+                .teamCode("RedTeam")
+                .projectCode("ProjectApple")
+                .buildDuration("3445s")
+                .build();
     }
 }
